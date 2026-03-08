@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>RTJ198</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{background:#030812;color:#c8deff;font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;}
+button,input,textarea{font-family:'DM Sans',sans-serif;}
+a{color:inherit;text-decoration:none;}
+img{display:block;max-width:100%;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:#030812;}
+::-webkit-scrollbar-thumb{background:#1e3a6e;border-radius:2px;}
+:root{--bg:#030812;--card:rgba(8,18,45,.6);--accent:#2563eb;--glow:#60a5fa;--tx:#c8deff;--tx2:#8aabdd;--mute:#4a6a9a;--mute2:#2a4a7a;--border:rgba(30,60,140,0.2);--r:14px;--r2:8px;}
+#sf{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.7;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 25% 15%,rgba(30,60,140,.2) 0%,transparent 55%),radial-gradient(ellipse at 80% 85%,rgba(14,30,80,.28) 0%,transparent 50%);}
+
+/* DISCLAIMER */
+#disclaimer{position:fixed;inset:0;z-index:9999;background:rgba(2,4,12,.98);display:flex;align-items:center;justify-content:center;padding:20px;}
+.disc-box{width:min(400px,94vw);background:linear-gradient(145deg,#06101e,#0a1830);border:1px solid rgba(37,99,235,.25);border-radius:22px;padding:38px 28px;text-align:center;position:relative;overflow:hidden;}
+.disc-box::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% -10%,rgba(37,99,235,.1),transparent 65%);pointer-events:none;}
+.disc-logo{font-family:'Cinzel',serif;font-size:32px;font-weight:700;letter-spacing:5px;background:linear-gradient(135deg,#60a5fa,#93c5fd,#60a5fa);background-size:200% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:_shimmer 3s linear infinite;margin-bottom:6px;}
+@keyframes _shimmer{0%{background-position:200% center;}100%{background-position:-200% center;}}
+.disc-sub{font-size:9px;letter-spacing:4px;color:var(--mute);text-transform:uppercase;margin-bottom:24px;}
+.disc-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#93c5fd;margin-bottom:10px;line-height:1.4;}
+.disc-text{font-size:13px;color:var(--tx2);line-height:1.9;margin-bottom:10px;}
+.disc-note{font-size:11px;color:rgba(74,106,154,.6);font-style:italic;margin-bottom:24px;line-height:1.7;}
+.disc-pw-label{font-size:10px;letter-spacing:2px;color:var(--mute);text-transform:uppercase;margin-bottom:8px;}
+.disc-pw-input{width:100%;background:rgba(37,99,235,.07);border:1px solid rgba(37,99,235,.25);border-radius:var(--r2);padding:13px 16px;color:#fff;font-size:15px;letter-spacing:4px;text-align:center;outline:none;margin-bottom:8px;transition:border-color .2s;}
+.disc-pw-input:focus{border-color:rgba(96,165,250,.5);}
+.disc-pw-input.shake{animation:_shake .4s ease;}
+@keyframes _shake{0%,100%{transform:none;}25%{transform:translateX(-8px);}75%{transform:translateX(8px);}50%{transform:translateX(-4px);}}
+.disc-pw-err{font-size:11px;color:#f87171;height:16px;opacity:0;transition:opacity .3s;margin-bottom:8px;}
+.disc-pw-err.show{opacity:1;}
+.disc-btn{width:100%;padding:14px;background:linear-gradient(135deg,#1d4ed8,#2563eb);border:1px solid rgba(96,165,250,.3);border-radius:var(--r2);color:#fff;font-size:13px;font-weight:500;letter-spacing:1.5px;cursor:pointer;transition:all .25s;}
+.disc-btn:hover{background:linear-gradient(135deg,#2563eb,#3b82f6);box-shadow:0 0 28px rgba(37,99,235,.4);}
+
+/* INTRO */
+#intro{position:fixed;inset:0;z-index:9000;background:#020408;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0;}
+.intro-pre{font-size:9px;letter-spacing:5px;color:var(--mute);text-transform:uppercase;margin-bottom:14px;animation:_fadeIn .6s ease .1s both;}
+.intro-wordmark{font-family:'Cinzel',serif;font-weight:700;font-size:clamp(36px,10vw,64px);letter-spacing:6px;background:linear-gradient(135deg,#3b82f6,#93c5fd,#60a5fa);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:_shimmer 2.5s linear infinite,_fadeIn .7s ease .3s both;}
+.intro-line{width:0;height:1px;background:linear-gradient(90deg,transparent,#3b82f6,transparent);margin:16px auto;animation:_iline .8s ease .9s both;}
+@keyframes _iline{to{width:140px;}}
+.intro-sub{font-size:9px;letter-spacing:5px;color:rgba(74,106,154,.5);text-transform:uppercase;animation:_fadeIn .6s ease 1.1s both;}
+@keyframes _fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+/* APP */
+#app{display:flex;flex-direction:column;height:100vh;position:relative;z-index:1;}
+.rtj-nav{display:flex;align-items:center;gap:12px;padding:14px 18px;background:rgba(3,8,20,.88);border-bottom:1px solid rgba(30,60,140,.22);flex-shrink:0;position:relative;z-index:2;backdrop-filter:blur(24px);}
+.rtj-nav-logo{font-family:'Cinzel',serif;font-size:16px;letter-spacing:3px;background:linear-gradient(135deg,#60a5fa,#93c5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.rtj-nav-badge{margin-left:auto;background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.2);border-radius:20px;padding:3px 12px;font-size:9px;letter-spacing:2px;color:#60a5fa;text-transform:uppercase;}
+.rtj-tabs{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid rgba(30,60,140,.18);padding:0 16px;flex-shrink:0;position:relative;z-index:2;background:rgba(3,8,20,.75);backdrop-filter:blur(16px);}
+.rtj-tabs::-webkit-scrollbar{display:none;}
+.rtj-tab{padding:12px 14px;background:none;border:none;color:rgba(100,140,200,.55);font-size:12px;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;font-family:'DM Sans',sans-serif;letter-spacing:.3px;}
+.rtj-tab.active{color:#93c5fd;border-bottom-color:#2563eb;}
+.rtj-body{flex:1;overflow-y:auto;position:relative;z-index:2;}
+.rtj-panel{display:none;padding:26px 18px 60px;max-width:640px;}
+.rtj-panel.active{display:block;}
+.rtj-eyebrow{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#2563eb;margin-bottom:8px;}
+.rtj-section-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#c8deff;margin-bottom:6px;letter-spacing:.3px;}
+.rtj-section-sub{font-size:13px;color:#4a6a9a;line-height:1.8;margin-bottom:18px;}
+.rtj-divider{display:flex;align-items:center;gap:12px;margin:22px 0;}
+.rtj-divider::before{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(37,99,235,.22));}
+.rtj-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(37,99,235,.22),transparent);}
+.rtj-divider span{color:#2563eb;font-size:13px;}
+.rtj-card{background:rgba(8,18,45,.6);border:1px solid rgba(30,60,140,.2);border-radius:var(--r);padding:20px;margin-bottom:12px;backdrop-filter:blur(8px);}
+.grad-animate{background:linear-gradient(270deg,#93c5fd,#60a5fa,#dbeafe,#93c5fd);background-size:300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:_shimmer 6s linear infinite;}
+
+/* LETTER */
+.rtj-letter-p{font-size:14px;line-height:2.1;color:rgba(180,210,255,.8);margin-bottom:14px;}
+.rtj-letter-hi{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:#60a5fa;line-height:1.8;margin-bottom:14px;}
+.rtj-letter-final{text-align:center;font-family:'Cormorant Garamond',serif;font-size:21px;color:#93c5fd;margin:28px 0;letter-spacing:.5px;}
+.rtj-letter-sign{text-align:right;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:#4a6a9a;line-height:2.2;}
+
+/* SONG */
+.rtj-vinyl-wrap{width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,#020810 0 13%,#0d2040 14% 26%,#020810 27% 44%,#0b1c36 45% 63%,#020810 64%);box-shadow:0 0 40px rgba(37,99,235,.2),0 8px 24px rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;cursor:pointer;margin:0 auto 14px;}
+.rtj-vinyl-wrap.spin{animation:_vspin 9s linear infinite;}
+@keyframes _vspin{to{transform:rotate(360deg);}}
+.rtj-vinyl-center{width:28px;height:28px;border-radius:50%;background:#020810;border:1px solid rgba(37,99,235,.2);display:flex;align-items:center;justify-content:center;font-size:11px;color:#4a6a9a;}
+.rtj-song-info{text-align:center;margin-bottom:12px;}
+.rtj-song-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#fff;}
+.rtj-song-artist{font-size:11px;color:#4a6a9a;margin-top:3px;}
+.rtj-prog-bar{width:100%;height:3px;background:rgba(37,99,235,.15);border-radius:2px;cursor:pointer;margin-bottom:5px;}
+.rtj-prog-fill{height:100%;background:linear-gradient(90deg,#2563eb,#60a5fa);border-radius:2px;width:0%;transition:width .2s linear;pointer-events:none;}
+.rtj-time-row{display:flex;justify-content:space-between;font-size:10px;color:#4a6a9a;margin-bottom:12px;}
+.rtj-ctrl-row{display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:14px;}
+.rtj-ctrl-btn{background:none;border:none;color:#4a6a9a;cursor:pointer;font-size:19px;padding:8px;transition:color .2s;}
+.rtj-ctrl-btn:hover{color:#fff;}
+.rtj-play-btn{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#1d4ed8,#2563eb);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 22px rgba(37,99,235,.5);transition:transform .15s;}
+.rtj-play-btn:active{transform:scale(.9);}
+.rtj-lyric-box{background:rgba(3,8,20,.7);border:1px solid rgba(30,60,140,.2);border-radius:var(--r2);height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:16px;overflow:hidden;backdrop-filter:blur(8px);}
+.rtj-ly-prev,.rtj-ly-next{font-size:12px;color:rgba(74,106,154,.5);line-height:1.6;}
+.rtj-ly-cur{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:500;color:#c8deff;line-height:1.6;margin:8px 0;}
+.rtj-ly-idle{font-size:12px;color:#4a6a9a;font-style:italic;}
+.rtj-song-status{text-align:center;font-size:12px;color:#4a6a9a;margin-bottom:10px;}
+#song-yt-hidden{position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;visibility:hidden;}
+
+/* ARTEMIS */
+.rtj-art-badge{display:flex;align-items:center;gap:12px;background:rgba(37,99,235,.07);border:1px solid rgba(37,99,235,.18);border-radius:var(--r2);padding:14px 16px;margin-bottom:14px;}
+.rtj-art-badge strong{display:block;font-size:13px;color:#fff;margin-bottom:2px;}
+.rtj-art-badge span{font-size:11px;color:#4a6a9a;}
+.rtj-art-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
+.rtj-art-stat{background:rgba(8,18,45,.6);border:1px solid rgba(30,60,140,.18);border-radius:var(--r2);padding:14px;text-align:center;}
+.rtj-art-n{font-family:'Cormorant Garamond',serif;font-size:22px;color:#60a5fa;font-weight:600;}
+.rtj-art-l{font-size:9px;color:#4a6a9a;letter-spacing:1px;text-transform:uppercase;margin-top:4px;}
+.rtj-art-info-card{background:rgba(8,18,45,.5);border:1px solid rgba(30,60,140,.18);border-radius:var(--r2);padding:16px 18px;margin-bottom:10px;}
+.rtj-art-info-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#2563eb;margin-bottom:8px;}
+.rtj-art-info-text{font-size:13px;color:rgba(180,210,255,.75);line-height:1.9;}
+
+/* TOAST */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0d1e35;border:1px solid rgba(37,99,235,.25);border-radius:var(--r2);padding:10px 18px;font-size:12.5px;color:#fff;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;}
+#toast.show{opacity:1;}
+</style>
+</head>
+<body>
+<canvas id="sf"></canvas>
+
+<!-- DISCLAIMER -->
+<div id="disclaimer">
+  <div class="disc-box">
+    <div class="disc-logo">Rutuja</div>
+    <div class="disc-sub">Private &middot; Personal &middot; For You</div>
+    <div class="disc-title">This is a private space</div>
+    <div class="disc-text">Everything here was built with care, over many months, for one person. It holds a letter, a song, and something special from NASA.</div>
+    <div class="disc-note">Please enter the access code to continue.</div>
+    <div class="disc-pw-label">Access Code</div>
+    <input class="disc-pw-input" id="disc-pw" type="password" placeholder="Enter code" maxlength="20" autocomplete="off" onkeydown="if(event.key==='Enter')checkPW()">
+    <div class="disc-pw-err" id="disc-pw-err">Incorrect. Try again.</div>
+    <button class="disc-btn" onclick="checkPW()">&#10022; &nbsp; Enter &nbsp; &#10022;</button>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div id="intro" style="display:none;">
+  <div class="intro-pre">This is for</div>
+  <div class="intro-wordmark">Rutuja</div>
+  <div class="intro-line"></div>
+  <div class="intro-sub">with everything I have</div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none;">
+  <div class="rtj-nav">
+    <div class="rtj-nav-logo">RTJ198</div>
+    <div class="rtj-nav-badge">Private</div>
+  </div>
+  <div class="rtj-tabs">
+    <button class="rtj-tab active" onclick="rtjTab('letter',this)">&#x2709;&#xFE0F; Letter</button>
+    <button class="rtj-tab" onclick="rtjTab('song',this)">&#x1F3B5; Song</button>
+    <button class="rtj-tab" onclick="rtjTab('artemis',this)">&#x1F680; Artemis</button>
+  </div>
+  <div class="rtj-body">
+
+    <!-- LETTER -->
+    <div class="rtj-panel active" id="rtj-panel-letter">
+      <div class="rtj-eyebrow">&#10022; Private &middot; For Rutuja</div>
+      <div class="rtj-section-title grad-animate">The Day Everything Changed</div>
+      <div class="rtj-divider"><span>&#10022;</span></div>
+      <p class="rtj-letter-p">June 11, 2025. I don't know if it was just another normal day for you, but for me it became a day I still remember clearly. I saw you at GMCC near the first-piece inspection table.</p>
+      <p class="rtj-letter-p">After that day, small things in my routine started changing. Sometimes I would arrive earlier than required on the shop floor or change shifts whenever possible, hoping that our paths might cross.</p>
+      <p class="rtj-letter-hi">Then came Saturday, July 5th.</p>
+      <p class="rtj-letter-p">At that time I didn't know it was your last day in the company. I had heard from someone that you were leaving soon, but I didn't know exactly when. When you didn't come for the first shift, I assumed you had already left. That day I even changed my shift — if you remember. I think now you probably know the reason why.</p>
+      <p class="rtj-letter-p">Later, when you walked in for the general shift, I felt relieved. Honestly, I can't really describe how happy I felt in that moment. But I didn't realize then that it would be the last time I would see you there. Looking back, the only thing I truly regret is that I never simply came up and spoke to you.</p>
+      <p class="rtj-letter-p">A few months later, after moving to Kedgaon, I saw you again. You probably saw me too, if you remember — near a dosa stall on September 25th. I remember the date clearly. I chose not to come up and say hello because I didn't want to make things awkward or uncomfortable. I didn't know whether you would feel comfortable talking or not. Even now, whenever I see you, I honestly feel like talking to you. But for the same reason, I stayed quiet.</p>
+      <p class="rtj-letter-p">That moment stayed with me even after I left. I even called a friend afterward just to tell him that I had seen you again — the person who is most special to me. I just wanted to tell someone at that moment, that's why I called him.</p>
+      <p class="rtj-letter-p">I don't know when or how this message will reach you. Maybe someday, maybe not soon. But if it does, I just want you to know something honestly and simply.</p>
+      <p class="rtj-letter-p">You are someone I have always remembered with genuine respect and quiet admiration.</p>
+      <p class="rtj-letter-p">I don't know what you feel about me, or even if you feel anything at all. But I want to tell you honestly, Rutuja — you are the most special person to me in this world, and you always will be. Whether you feel the same way or not doesn't change that.</p>
+      <p class="rtj-letter-p">I don't know how you might feel reading this. Maybe you are surprised, maybe confused, or maybe even a little annoyed or mad. You seem like a slightly serious person — at least that's the impression I got. Of course, I might be completely wrong because I've never really had the chance to spend time with you. Maybe one day you can tell me whether I was right or wrong about that &#x1F91E;</p>
+      <p class="rtj-letter-p">I could never say all this face to face because I get nervous. That's why I chose this way to let this message reach you.</p>
+      <p class="rtj-letter-p">Of course, I took help from AI tools to build the code for this website because I'm not a professional coder. But still, putting everything together and making it work properly took a lot of effort. You can at least appreciate that part &#x1F642;</p>
+      <p class="rtj-letter-p">And don't worry, this site is not public. Only you and I can see it.</p>
+      <div class="rtj-letter-final">Rutuja — you are the most special person to me.</div>
+      <div class="rtj-divider"><span>&#10022;</span></div>
+      <p class="rtj-letter-p" style="color:rgba(180,210,255,.5);font-style:italic;font-family:'Cormorant Garamond',serif;font-size:15px;">One small thing — in the access password <span style="color:#60a5fa;font-style:normal;letter-spacing:2px;">RutujaAg0625</span>, the <span style="color:#93c5fd;font-style:normal;">06</span> is the month — June — and <span style="color:#93c5fd;font-style:normal;">25</span> is the year, of course. I thought I should tell you this small detail.</p>
+      <p class="rtj-letter-sign">With everything I have,<br>the one who always looked for you.</p>
+    </div>
+
+    <!-- SONG -->
+    <div class="rtj-panel" id="rtj-panel-song">
+      <div class="rtj-eyebrow">&#x266A; For You</div>
+      <div class="rtj-section-title grad-animate">A Thousand Years</div>
+      <div class="rtj-section-sub">Christina Perri &middot; Audio only, just to listen.</div>
+      <div id="song-yt-hidden"><div id="yt-player"></div></div>
+      <div class="rtj-card">
+        <div class="rtj-vinyl-wrap" id="vinyl" onclick="songTogglePlay()">
+          <div class="rtj-vinyl-center">&#x266A;</div>
+        </div>
+        <div class="rtj-song-info">
+          <div class="rtj-song-title">A Thousand Years</div>
+          <div class="rtj-song-artist">Christina Perri</div>
+        </div>
+        <div class="rtj-song-status" id="song-status-txt">Tap &#x266A; to begin playing</div>
+        <div class="rtj-prog-bar" id="pb" onclick="songSeek(event)"><div class="rtj-prog-fill" id="pf"></div></div>
+        <div class="rtj-time-row"><span id="ct">0:00</span><span id="tt">0:00</span></div>
+        <div class="rtj-ctrl-row">
+          <button class="rtj-ctrl-btn" onclick="songSkip(-10)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+          </button>
+          <button class="rtj-play-btn" id="playbtn" onclick="songTogglePlay()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </button>
+          <button class="rtj-ctrl-btn" onclick="songSkip(10)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polygon points="5 20 15 12 5 4 5 20"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+          </button>
+        </div>
+        <div class="rtj-lyric-box">
+          <div class="rtj-ly-prev" id="lyp"></div>
+          <div class="rtj-ly-cur" id="lyc"><span class="rtj-ly-idle">Tap play to begin &#x266A;</span></div>
+          <div class="rtj-ly-next" id="lyn"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARTEMIS -->
+    <div class="rtj-panel" id="rtj-panel-artemis">
+      <div class="rtj-eyebrow">&#x1F680; NASA &middot; Artemis II</div>
+      <div class="rtj-section-title grad-animate">Your Name Travels to the Moon</div>
+      <div class="rtj-section-sub">Rutuja's name is officially part of NASA's Artemis II mission — humanity's return to the Moon.</div>
+
+      <div class="rtj-art-badge">
+        <span style="font-size:22px;">&#x1F680;</span>
+        <div>
+          <strong>Ms. Rutuja Agwan &middot; Certified Participant</strong>
+          <span>NASA Artemis II &middot; Send Your Name to the Moon</span>
+        </div>
+      </div>
+
+      <div style="border-radius:var(--r);overflow:hidden;border:1px solid rgba(30,60,140,.2);margin:0 0 16px;">
+        <img src="https://lh3.googleusercontent.com/d/1ghawHElnFVMvQNrZu3BayO7e8hiyq_a2" alt="Artemis Certificate" style="width:100%;display:block;" onerror="this.parentNode.innerHTML='<div style=height:90px;display:flex;align-items:center;justify-content:center;gap:10px;color:#4a6a9a;background:rgba(8,18,45,.5);font-size:13px;><span style=font-size:24px>&#x1F680;</span><span>Open in Chrome to view certificate</span></div>'">
+      </div>
+
+      <div class="rtj-card" style="padding:14px 14px 10px;">
+        <svg viewBox="0 0 560 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+          <defs>
+            <radialGradient id="eg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1e3a6e"/><stop offset="100%" stop-color="#0a1f3d"/></radialGradient>
+            <radialGradient id="mg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#7a8ba5"/><stop offset="100%" stop-color="#3d4a5c"/></radialGradient>
+            <filter id="gf"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <circle cx="60" cy="18" r=".7" fill="white" opacity=".4"/>
+          <circle cx="140" cy="12" r=".5" fill="white" opacity=".35"/>
+          <circle cx="300" cy="7" r=".6" fill="white" opacity=".5"/>
+          <circle cx="66" cy="92" r="38" fill="url(#eg)" filter="url(#gf)"/>
+          <text x="66" y="142" text-anchor="middle" fill="#6fa3ff" font-size="8" font-family="DM Sans" opacity=".6">EARTH</text>
+          <circle cx="494" cy="92" r="25" fill="url(#mg)" filter="url(#gf)"/>
+          <text x="494" y="128" text-anchor="middle" fill="#8a9bb5" font-size="8" font-family="DM Sans" opacity=".6">MOON</text>
+          <path d="M104 76 Q280 -20 460 76" fill="none" stroke="#6fa3ff" stroke-width="1" stroke-dasharray="5,4" opacity=".45"><animate attributeName="stroke-dashoffset" from="180" to="0" dur="3s" repeatCount="indefinite"/></path>
+          <path d="M460 108 Q280 200 104 108" fill="none" stroke="#93c5fd" stroke-width="1" stroke-dasharray="5,4" opacity=".35"><animate attributeName="stroke-dashoffset" from="180" to="0" dur="3s" begin="1.5s" repeatCount="indefinite"/></path>
+          <g><animateMotion dur="6s" repeatCount="indefinite" rotate="auto"><mpath href="#orb"/></animateMotion><polygon points="0,-5 3.5,3.5 0,2 -3.5,3.5" fill="#60a5fa" filter="url(#gf)"/></g>
+          <path id="orb" d="M104 76 Q280 -20 460 76 Q280 200 104 108 Z" fill="none"/>
+          <rect x="210" y="106" width="140" height="18" rx="9" fill="rgba(37,99,235,.07)" stroke="rgba(37,99,235,.22)" stroke-width=".7"/>
+          <text x="280" y="118" text-anchor="middle" fill="#60a5fa" font-size="7.5" font-family="DM Sans">&#x2726; RUTUJA'S NAME ABOARD &#x2726;</text>
+        </svg>
+      </div>
+
+      <div class="rtj-art-info-card">
+        <div class="rtj-art-info-title">What is NASA Artemis?</div>
+        <div class="rtj-art-info-text">Artemis is NASA's human spaceflight program designed to return astronauts to the Moon for the first time since Apollo 17 in 1972 — over 50 years ago. Named after the twin sister of Apollo in Greek mythology, the program aims to land the first woman and the first person of colour on the lunar surface. Artemis is also the foundation for humanity's eventual journey to Mars.</div>
+      </div>
+
+      <div class="rtj-art-info-card">
+        <div class="rtj-art-info-title">Artemis II — The Mission</div>
+        <div class="rtj-art-info-text">Artemis II is the first crewed mission of the program. Four astronauts will fly aboard NASA's Orion spacecraft, launched by the Space Launch System (SLS) — the most powerful rocket ever built. The crew will travel farther from Earth than any human has gone in over 50 years, looping around the Moon before returning safely. It is the critical test flight before astronauts land on the Moon again.</div>
+      </div>
+
+      <div class="rtj-art-info-card">
+        <div class="rtj-art-info-title">Send Your Name to the Moon</div>
+        <div class="rtj-art-info-text">NASA invited people across the world to submit their names to be engraved on a microchip — a silicon chip no larger than a fingernail — that flies aboard the Orion spacecraft on Artemis II. Millions of names were etched onto this chip, which will travel 385,000 km to the Moon and back. It is a way for ordinary people everywhere to be part of one of the greatest journeys in human history.</div>
+      </div>
+
+      <div class="rtj-art-info-card" style="background:rgba(37,99,235,.05);border-color:rgba(37,99,235,.28);">
+        <div class="rtj-art-info-title" style="color:#60a5fa;">Rutuja's Name — Aboard</div>
+        <div class="rtj-art-info-text">Rutuja's name was submitted and officially certified as part of this mission. Her name is physically engraved on the chip flying on Artemis II. That means a small piece of her — her name, her identity — will travel to the Moon and back. Not many people can say that. It felt right to make sure she knew.</div>
+      </div>
+
+      <div class="rtj-art-grid">
+        <div class="rtj-art-stat"><div class="rtj-art-n">385K km</div><div class="rtj-art-l">To the Moon</div></div>
+        <div class="rtj-art-stat"><div class="rtj-art-n">4</div><div class="rtj-art-l">Crew aboard</div></div>
+        <div class="rtj-art-stat"><div class="rtj-art-n">50+ yrs</div><div class="rtj-art-l">Since last flyby</div></div>
+        <div class="rtj-art-stat"><div class="rtj-art-n">&#x2726;</div><div class="rtj-art-l">Her name on chip</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* STARFIELD */
+(function(){
+  var c=document.getElementById('sf');if(!c)return;
+  var ctx=c.getContext('2d'),stars=[];
+  function rsz(){c.width=window.innerWidth;c.height=window.innerHeight;stars=[];var n=Math.floor(c.width*c.height/2800);for(var i=0;i<n;i++)stars.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.1+.15,a:Math.random(),da:(Math.random()-.5)*.004});}
+  function draw(){ctx.clearRect(0,0,c.width,c.height);stars.forEach(function(s){s.a+=s.da;if(s.a<.05)s.da=Math.abs(s.da);if(s.a>1)s.da=-Math.abs(s.da);ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle='rgba(180,210,255,'+s.a.toFixed(2)+')';ctx.fill();});requestAnimationFrame(draw);}
+  window.addEventListener('resize',rsz,{passive:true});rsz();draw();
+})();
+
+/* PASSWORD */
+function checkPW(){
+  var inp=document.getElementById('disc-pw'),err=document.getElementById('disc-pw-err');
+  if(inp.value==='RutujaAg0625'){
+    var d=document.getElementById('disclaimer');
+    d.style.transition='opacity .6s ease';d.style.opacity='0';
+    setTimeout(function(){d.style.display='none';startIntro();},600);
+  } else {
+    inp.classList.add('shake');err.classList.add('show');
+    setTimeout(function(){inp.classList.remove('shake');err.classList.remove('show');},2000);
+    inp.value='';inp.focus();
+  }
+}
+
+/* INTRO */
+function startIntro(){
+  var intro=document.getElementById('intro');intro.style.display='flex';
+  setTimeout(function(){
+    intro.style.transition='opacity .9s ease,transform .9s ease';
+    intro.style.opacity='0';intro.style.transform='scale(1.04)';
+    setTimeout(function(){intro.style.display='none';document.getElementById('app').style.display='flex';},900);
+  },2200);
+}
+
+/* TOAST */
+var _tt;
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(_tt);_tt=setTimeout(function(){t.classList.remove('show');},2800);}
+
+/* TABS */
+function rtjTab(name,btn){
+  document.querySelectorAll('.rtj-tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.rtj-panel').forEach(function(p){p.classList.remove('active');});
+  btn.classList.add('active');
+  document.getElementById('rtj-panel-'+name).classList.add('active');
+}
+
+/* SONG — YouTube audio only (player hidden off-screen, no video visible) */
+var _ytPlayer=null,_songPlaying=false,_songTimer=null,_ytLoaded=false;
+var _lyrics=[
+  {t:0,text:'Heart beats fast'},{t:4,text:'Colours and promises'},
+  {t:9,text:'How to be brave'},{t:13,text:"How can I love when I'm afraid to fall"},
+  {t:18,text:'But watching you stand alone'},{t:25,text:'All of my doubt suddenly goes away somehow'},
+  {t:34,text:'One step closer'},{t:38,text:'I have died every day'},
+  {t:42,text:'Waiting for you'},{t:46,text:"Darling don't be afraid"},
+  {t:50,text:'I have loved you for a thousand years'},{t:57,text:"I'll love you for a thousand more"},
+  {t:65,text:'Time stands still'},{t:69,text:'Beauty in all she is'},
+  {t:73,text:'I will be brave'},{t:82,text:'Every breath, every hour has come to this'},
+  {t:93,text:'One step closer'},{t:97,text:'I have died every day waiting for you'},
+  {t:106,text:"Darling don't be afraid"},{t:110,text:'I have loved you for a thousand years'},
+  {t:117,text:"I'll love you for a thousand more"},{t:130,text:'And all along I believed I would find you'},
+  {t:139,text:'Time has brought your heart to me'},{t:145,text:'I have loved you for a thousand years'},
+  {t:152,text:"I'll love you for a thousand more"}
+];
+
+function songTogglePlay(){
+  if(!_ytLoaded){initYTPlayer();return;}
+  if(!_ytPlayer)return;
+  try{if(_songPlaying){_ytPlayer.pauseVideo();}else{_ytPlayer.playVideo();}}catch(e){}
+}
+
+function initYTPlayer(){
+  if(_ytLoaded)return;_ytLoaded=true;
+  document.getElementById('song-status-txt').textContent='Loading player...';
+  if(window.YT&&window.YT.Player){createYTPlayer();}
+  else{
+    window.onYouTubeIframeAPIReady=createYTPlayer;
+    var s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);
+  }
+}
+
+function createYTPlayer(){
+  _ytPlayer=new YT.Player('yt-player',{
+    height:'1',width:'1',
+    videoId:'apGqMG6GKFE',
+    playerVars:{autoplay:1,controls:0,disablekb:1,iv_load_policy:3,modestbranding:1,rel:0,origin:window.location.origin||'null'},
+    events:{
+      onReady:function(e){
+        document.getElementById('song-status-txt').textContent='Now Playing';
+        e.target.playVideo();
+      },
+      onStateChange:function(e){
+        if(e.data===YT.PlayerState.PLAYING){
+          _songPlaying=true;
+          document.getElementById('vinyl').classList.add('spin');
+          document.getElementById('playbtn').innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
+          document.getElementById('song-status-txt').textContent='Now Playing';
+          startSongTimer();
+        } else if(e.data===YT.PlayerState.PAUSED){
+          _songPlaying=false;
+          document.getElementById('vinyl').classList.remove('spin');
+          document.getElementById('playbtn').innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
+          document.getElementById('song-status-txt').textContent='Paused';
+          clearInterval(_songTimer);
+        } else if(e.data===YT.PlayerState.ENDED){
+          _songPlaying=false;
+          document.getElementById('vinyl').classList.remove('spin');
+          document.getElementById('playbtn').innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
+          document.getElementById('song-status-txt').textContent='Ended';
+          clearInterval(_songTimer);
+        }
+      },
+      onError:function(){
+        document.getElementById('song-status-txt').textContent='Trying alternate...';
+        try{_ytPlayer.loadVideoById('t8IMeRQnPqI');}catch(e){}
+      }
+    }
+  });
+}
+
+function startSongTimer(){
+  clearInterval(_songTimer);
+  _songTimer=setInterval(function(){
+    if(!_ytPlayer||!_songPlaying)return;
+    try{
+      var ct=_ytPlayer.getCurrentTime()||0,dur=_ytPlayer.getDuration()||240;
+      document.getElementById('pf').style.width=((ct/dur)*100)+'%';
+      document.getElementById('ct').textContent=fmtTime(ct);
+      document.getElementById('tt').textContent=fmtTime(dur);
+      updateLyrics(ct);
+    }catch(e){}
+  },500);
+}
+
+function updateLyrics(t){
+  var idx=-1;
+  for(var i=0;i<_lyrics.length;i++){if(_lyrics[i].t<=t)idx=i;}
+  if(idx<0)return;
+  var lyc=document.getElementById('lyc'),lyp=document.getElementById('lyp'),lyn=document.getElementById('lyn');
+  if(lyc)lyc.textContent=_lyrics[idx].text;
+  if(lyp)lyp.textContent=idx>0?_lyrics[idx-1].text:'';
+  if(lyn)lyn.textContent=idx<_lyrics.length-1?_lyrics[idx+1].text:'';
+}
+
+function songSkip(s){if(_ytPlayer)try{_ytPlayer.seekTo((_ytPlayer.getCurrentTime()||0)+s,true);}catch(e){}}
+function songSeek(e){
+  var pb=document.getElementById('pb');if(!pb||!_ytPlayer)return;
+  var r=pb.getBoundingClientRect(),pct=(e.clientX-r.left)/r.width;
+  try{_ytPlayer.seekTo(pct*(_ytPlayer.getDuration()||240),true);}catch(e){}
+}
+function fmtTime(s){s=Math.floor(s);return Math.floor(s/60)+':'+(('0'+(s%60)).slice(-2));}
+</script>
+</body>
+</html>
